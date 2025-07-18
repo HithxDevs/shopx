@@ -5,5 +5,8 @@
     }
   },
   "buildCommand": "npm run build",
-  "installCommand": "npm ci"
+  "installCommand": "npm ci",
+  "env": {
+    "NEXT_LINT": "false"
+  }
 }

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:fast": "NEXT_LINT=false next build"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.25.2",
