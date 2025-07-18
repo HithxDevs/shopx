@@ -7,18 +7,18 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs'
-import { Geist, Geist_Mono } from 'next/font/google'
+// import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
+// const geistSans = Geist({
+//   variable: '--font-geist-sans',
+//   subsets: ['latin'],
+// })
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-})
+// const geistMono = Geist_Mono({
+//   variable: '--font-geist-mono',
+//   subsets: ['latin'],
+// })
 
 export const metadata: Metadata = {
   title: 'Clerk Next.js Quickstart',
@@ -33,7 +33,8 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}> */}
+          <body>
           <header className="fixed top-0 right-0 z-150 flex justify-end items-center p-3 sm:p-4 gap-2 sm:gap-4 h-14 sm:h-16 bg-white/90 backdrop-blur-sm border-b border-gray-200/50">
             <SignedOut>
               <SignInButton>
