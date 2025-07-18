@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build:fast": "NEXT_LINT=false next build"
+    "build:fast": "NEXT_LINT=false next build",
+    "build:deploy": "NEXT_FONT_GOOGLE_MOCKED=true npm run build"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.25.2",
