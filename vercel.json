@@ -1,5 +1,7 @@
 {
   "env": {
-    "NEXT_PRIVATE_DISABLE_LIGHTNINGCSS": "true"
-  }
+    "NEXT_PRIVATE_DISABLE_LIGHTNINGCSS": "true",
+    "TAILWIND_DISABLE_TOUCH": "true"
+  },
+  "buildCommand": "npm run build"
 }
