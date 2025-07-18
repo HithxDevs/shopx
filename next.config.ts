@@ -3,6 +3,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+   swcMinify: true,
     experimental: {
     optimizeCss: false, // Disable Lightning CSS
   },
