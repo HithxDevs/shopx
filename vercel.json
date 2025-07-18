@@ -1,0 +1,9 @@
+{
+  "functions": {
+    "app/**/*.{js,ts,jsx,tsx}": {
+      "maxDuration": 30
+    }
+  },
+  "buildCommand": "npm run build",
+  "installCommand": "npm ci"
+}
