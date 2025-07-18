@@ -1,6 +1,5 @@
+
 {
-  "buildCommand": "NEXT_PRIVATE_DISABLE_LIGHTNINGCSS=true npm run build",
-  "env": {
-    "NEXT_PRIVATE_DISABLE_LIGHTNINGCSS": "true"
-  }
+  "buildCommand": "prisma generate && npm run build",
+  "installCommand": "npm ci && prisma generate"
 }

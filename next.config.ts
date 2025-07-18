@@ -3,12 +3,15 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  typescript: {
-    ignoreBuildErrors: true, // Also ignore TypeScript errors if needed
+  experimental: {
+    optimizeCss: false,
+  },
+  webpack: (config: import('webpack').Configuration, { isServer }: { isServer: boolean }) => {
+    if (isServer) {
+      config.plugins = [...(config.plugins ?? [])]
+    }
+    return config
   },
 }
 
-module.exports = nextConfig
-
-
-
+export default nextConfig
