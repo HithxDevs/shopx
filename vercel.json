@@ -1,12 +1,6 @@
 {
-  "functions": {
-    "app/**/*.{js,ts,jsx,tsx}": {
-      "maxDuration": 30
-    }
-  },
-  "buildCommand": "npm run build",
-  "installCommand": "npm ci",
+  "buildCommand": "NEXT_PRIVATE_DISABLE_LIGHTNINGCSS=true npm run build",
   "env": {
-    "NEXT_LINT": "false"
+    "NEXT_PRIVATE_DISABLE_LIGHTNINGCSS": "true"
   }
 }
