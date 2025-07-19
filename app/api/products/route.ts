@@ -90,6 +90,7 @@ export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
     
+    // Validate required fields
     if (!body.id) {
       return NextResponse.json(
         { error: 'Product ID is required' },
@@ -97,13 +98,89 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    // Convert numeric fields
-    const updateData = {
-      ...body,
-      price: body.price ? parseFloat(body.price) : undefined,
-      salePrice: body.salePrice ? parseFloat(body.salePrice) : undefined,
-      stock: body.stock ? parseInt(body.stock) : undefined
-    };
+    // Validate product exists
+    const existingProduct = await prisma.product.findUnique({
+      where: { id: body.id }
+    });
+
+    if (!existingProduct) {
+      return NextResponse.json(
+        { error: 'Product not found' },
+        { status: 404 }
+      );
+    }
+
+    // Prepare update data with proper type conversion
+    const updateData: Partial<{
+      name: string;
+      slug: string;
+      description: string;
+      price: number;
+      salePrice: number | null;
+      stock: number;
+      imageUrls: string[];
+      isActive: boolean;
+      isFeatured: boolean;
+      category: string | null;
+      tags: string[];
+    }> = {};
+
+    // Only include fields that are actually being updated
+    if (body.name !== undefined) updateData.name = body.name;
+    if (body.slug !== undefined) updateData.slug = body.slug;
+    if (body.description !== undefined) updateData.description = body.description;
+    
+    if (body.price !== undefined) {
+      const price = parseFloat(body.price);
+      if (isNaN(price) || price < 0) {
+        return NextResponse.json(
+          { error: 'Price must be a valid positive number' },
+          { status: 400 }
+        );
+      }
+      updateData.price = price;
+    }
+    
+    if (body.salePrice !== undefined) {
+      if (body.salePrice === null || body.salePrice === '') {
+        updateData.salePrice = null;
+      } else {
+        const salePrice = parseFloat(body.salePrice);
+        if (isNaN(salePrice) || salePrice < 0) {
+          return NextResponse.json(
+            { error: 'Sale price must be a valid positive number or empty' },
+            { status: 400 }
+          );
+        }
+        updateData.salePrice = salePrice;
+      }
+    }
+    
+    if (body.stock !== undefined) {
+      const stock = parseInt(body.stock);
+      if (isNaN(stock) || stock < 0) {
+        return NextResponse.json(
+          { error: 'Stock must be a valid positive integer' },
+          { status: 400 }
+        );
+      }
+      updateData.stock = stock;
+    }
+    
+    if (body.imageUrls !== undefined) updateData.imageUrls = body.imageUrls;
+    if (body.isActive !== undefined) updateData.isActive = Boolean(body.isActive);
+    if (body.isFeatured !== undefined) updateData.isFeatured = Boolean(body.isFeatured);
+    if (body.category !== undefined) updateData.category = body.category || null;
+    if (body.tags !== undefined) updateData.tags = body.tags;
+
+    // Validate sale price is less than regular price if both are provided
+    if (updateData.salePrice !== null && updateData.salePrice !== undefined && 
+        updateData.price !== undefined && updateData.salePrice >= updateData.price) {
+      return NextResponse.json(
+        { error: 'Sale price must be less than regular price' },
+        { status: 400 }
+      );
+    }
 
     const product = await prisma.product.update({
       where: { id: body.id },
@@ -112,10 +189,13 @@ export async function PUT(request: NextRequest) {
     
     return NextResponse.json(product);
   } catch (error) {
-    return handleError(error, 'updating product');
+    console.error('Error updating product:', error);
+    return NextResponse.json(
+      { error: 'An error occurred while updating the product' },
+      { status: 500 }
+    );
   }
 }
-
 // DELETE - Delete product
 export async function DELETE(request: NextRequest) {
   try {

@@ -1,15 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+import type { NextConfig } from "next";
 
-  webpack: (config: import('webpack').Configuration, { isServer }: { isServer: boolean }) => {
-    if (isServer) {
-      config.plugins = [...(config.plugins ?? [])]
-    }
-    return config
+const nextConfig: NextConfig = {
+   eslint: {
+    ignoreDuringBuilds: true, // TEMPORARY FIX
   },
-}
+  /* config options here */
+};
 
-export default nextConfig
+export default nextConfig;

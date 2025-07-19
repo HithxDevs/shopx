@@ -253,7 +253,7 @@ const EcommerceLanding = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <button 
                 onClick={() => setShowMobileMenu(!showMobileMenu)}
                 className="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500"
@@ -262,13 +262,13 @@ const EcommerceLanding = () => {
               </button>
              <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800 ml-2 sm:ml-4 whitespace-nowrap">
               Giri seat covers
-            </h1>
+            </h1> */}
 
 
-            </div>
+            {/* </div> */}
 
             {/* Search Bar */}
-            <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+            <div className="hidden md:flex flex-1 max-w-2xl mx-2">
               <div className="relative w-full">
                 <input
                   type="text"
@@ -312,7 +312,7 @@ const EcommerceLanding = () => {
 
       {/* Navigation Categories */}
      <nav className="bg-white border-b border-gray-200 shadow-sm">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
     <div className="flex items-center justify-between h-16">
       {/* Categories */}
       <div className="flex items-center space-x-1 overflow-x-auto py-2 hide-scrollbar">
