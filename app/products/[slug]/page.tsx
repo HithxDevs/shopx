@@ -30,6 +30,12 @@ interface RelatedProduct {
   imageUrls: string[];
 }
 
+// Define the proper page props interface
+interface PageProps {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
 // Data fetching functions
 async function getProduct(slug: string): Promise<Product | null> {
   try {
@@ -73,12 +79,9 @@ async function getRelatedProducts(
 }
 
 // Page component with proper typing
-export default async function ProductPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const product = await getProduct(params.slug);
+export default async function ProductPage({ params, searchParams }: PageProps) {
+  const resolvedParams = await params;
+  const product = await getProduct(resolvedParams.slug);
   
   if (!product) {
     notFound();
@@ -200,7 +203,6 @@ export default async function ProductPage({
                   })}
                 </span>
               </li>
-
             </ul>
           </div>
         </div>
@@ -234,8 +236,9 @@ export async function generateStaticParams() {
 }
 
 // Add metadata if needed
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-  const product = await getProduct(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const product = await getProduct(resolvedParams.slug);
   
   return {
     title: product?.name || 'Product Not Found',
