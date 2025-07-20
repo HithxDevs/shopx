@@ -3,8 +3,9 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { toast } from 'react-hot-toast';
 import { notFound } from 'next/navigation';
-import  prisma  from '@/app/lib/prisma';
+import prisma from '@/app/lib/prisma';
 
+// Define your product types
 interface Product {
   id: string;
   name: string;
@@ -20,13 +21,6 @@ interface Product {
   createdAt: Date;
 }
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-
 interface RelatedProduct {
   id: string;
   name: string;
@@ -36,9 +30,9 @@ interface RelatedProduct {
   imageUrls: string[];
 }
 
+// Data fetching functions
 async function getProduct(slug: string): Promise<Product | null> {
   try {
-    // Replace with your actual data fetching logic
     const product = await prisma.product.findUnique({
       where: { slug, isActive: true },
     });
@@ -49,11 +43,13 @@ async function getProduct(slug: string): Promise<Product | null> {
   }
 }
 
-async function getRelatedProducts(category: string | null, currentProductId: string): Promise<RelatedProduct[]> {
+async function getRelatedProducts(
+  category: string | null,
+  currentProductId: string
+): Promise<RelatedProduct[]> {
   if (!category) return [];
   
   try {
-    // Replace with your actual data fetching logic
     return await prisma.product.findMany({
       where: { 
         category,
@@ -76,7 +72,12 @@ async function getRelatedProducts(category: string | null, currentProductId: str
   }
 }
 
-export default async function ProductPage({ params }: PageProps) {
+// Page component with proper typing
+export default async function ProductPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const product = await getProduct(params.slug);
   
   if (!product) {
@@ -218,4 +219,26 @@ export default async function ProductPage({ params }: PageProps) {
       )}
     </div>
   );
+}
+
+// Static generation for better performance
+export async function generateStaticParams() {
+  const products = await prisma.product.findMany({
+    where: { isActive: true },
+    select: { slug: true }
+  });
+
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
+}
+
+// Add metadata if needed
+export async function generateMetadata({ params }: { params: { slug: string } }) {
+  const product = await getProduct(params.slug);
+  
+  return {
+    title: product?.name || 'Product Not Found',
+    description: product?.description || 'Product details page',
+  };
 }
