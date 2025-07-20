@@ -20,6 +20,13 @@ interface Product {
   createdAt: Date;
 }
 
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+
 interface RelatedProduct {
   id: string;
   name: string;
@@ -69,7 +76,7 @@ async function getRelatedProducts(category: string | null, currentProductId: str
   }
 }
 
-export default async function ProductPage({ params }: { params: { slug: string } }) {
+export default async function ProductPage({ params }: PageProps) {
   const product = await getProduct(params.slug);
   
   if (!product) {
