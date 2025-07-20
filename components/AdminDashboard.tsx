@@ -47,8 +47,20 @@ const AdminDashboard = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  // Close mobile menu when screen size increases
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen mt-8 bg-gray-50">
       {/* Mobile menu overlay */}
       {mobileMenuOpen && (
         <div 
@@ -59,8 +71,8 @@ const AdminDashboard = () => {
 
       {/* Sidebar */}
       <aside 
-        className={`fixed lg:static z-30 w-64 h-full bg-gradient-to-b from-gray-800 to-gray-900 text-white transition-all duration-300 ease-in-out 
-          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} 
+        className={`fixed lg:static z-30 w-90 h-full bg-gradient-to-b from-gray-800 to-gray-900 text-white transition-all duration-300 ease-in-out 
+          ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} 
           lg:translate-x-0 shadow-xl`}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
@@ -68,7 +80,7 @@ const AdminDashboard = () => {
             <FiHome className="mr-2" /> Admin Panel
           </h1>
           <button 
-            onClick={() => setSidebarOpen(false)}
+            onClick={() => setMobileMenuOpen(false)}
             className="lg:hidden text-gray-400 hover:text-white transition-colors"
           >
             <FiX size={20} />
@@ -120,7 +132,7 @@ const AdminDashboard = () => {
 
       {/* Main content */}
       <div className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${
-        sidebarOpen ? 'lg:ml-64' : 'lg:ml-0'
+        sidebarOpen ? 'lg:ml-0' : 'lg:ml-0'
       }`}>
         {/* Top header */}
         <header className="bg-white shadow-sm z-10">

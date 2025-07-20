@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
    eslint: {
     ignoreDuringBuilds: true, // TEMPORARY FIX
   },
+  images: {
+    domains: ['res.cloudinary.com'],
+  },
   /* config options here */
 };
 

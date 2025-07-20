@@ -1,11 +1,6 @@
 import { type Metadata } from 'next'
 import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
+  ClerkProvider
 } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
 import './globals.css'
@@ -27,6 +22,8 @@ export const metadata: Metadata = {
 
 
 
+import { AutoHideHeader } from '@/components/AutoHideHeader'
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -36,53 +33,12 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          {/* Fixed Header */}
-          <header className="fixed top-0 left-0 right-0 z-50 bg-white backdrop-blur-sm border-b border-gray-200/50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex items-center justify-between h-14 sm:h-16">
-                
-                {/* Logo Section */}
-                <div className="flex items-center">
-                  <div className="text-xl sm:text-2xl font-bold text-gray-900">
-                    Giri Seat Covers
-                  </div>
-                </div>
-
-                {/* Auth Buttons Section */}
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <SignedOut>
-                    <SignInButton>
-                      <button className="text-gray-700 hover:text-gray-900 font-medium text-sm sm:text-base px-3 sm:px-4 py-2 rounded-lg transition-colors hover:bg-gray-50">
-                        Sign In
-                      </button>
-                    </SignInButton>
-                    <SignUpButton>
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm sm:text-base px-3 sm:px-4 py-2 rounded-lg transition-all duration-200 hover:shadow-md active:scale-95">
-                        Sign Up
-                      </button>
-                    </SignUpButton>
-                  </SignedOut>
-                  
-                  <SignedIn>
-                    <UserButton 
-                      appearance={{
-                        elements: {
-                          avatarBox: "w-8 h-8 sm:w-9 sm:h-9"
-                        }
-                      }}
-                    />
-                  </SignedIn>
-                </div>
-              </div>
-            </div>
-          </header>
-
-          {/* Main Content with proper padding to account for fixed header */}
+          <AutoHideHeader />
           <main className="pt-14 sm:pt-16">
             {children}
           </main>
         </body>
       </html>
     </ClerkProvider>
-  );
+  )
 }
